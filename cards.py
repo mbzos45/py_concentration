@@ -1,8 +1,7 @@
-from __future__ import annotations
-
 import random
 import pygame as pg
 import enum
+from typing import Final
 
 IMG_PATH = "assets/img/"
 CARD_BACK_NAME = "cardBack.png"
@@ -32,20 +31,24 @@ class Score(enum.IntEnum):
     K = 13
 
     def get_str(self):
-        if self.value == Score.A:
-            result = "A"
-        elif self.value == Score.J:
-            result = "J"
-        elif self.value == Score.Q:
-            result = "Q"
-        elif self.value == Score.K:
-            result = "K"
-        else:
-            result = str(self.value)
+        match self.value:
+            case Score.A:
+                result = "A"
+            case Score.J:
+                result = "J"
+            case Score.Q:
+                result = "Q"
+            case Score.K:
+                result = "K"
+            case _:
+                result = str(self.value)
         return result
 
 
 class Card:
+    SCORE: Final[Score]
+    SUIT: Final[Suit]
+
     def __init__(self, suit: Suit, score: Score, back_surface: pg.Surface | pg.SurfaceType,
                  front_surface: pg.Surface | pg.SurfaceType, x=0, y=0):
         self.SUIT = suit
@@ -82,7 +85,7 @@ def init_cards() -> list[list[Card | None]]:
     random.shuffle(raw_list)
     suit_len = len(Suit)
     score_len = len(Score)
-    result = [raw_list[i:i + score_len] for i in range(0, suit_len * score_len, score_len)]
+    result: list[list[Card | None]] = [raw_list[i:i + score_len] for i in range(0, suit_len * score_len, score_len)]
     card_size = result[0][0].surface.get_size()
     y_pos = 10
     for single_list in result:
