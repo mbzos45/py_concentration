@@ -1,6 +1,6 @@
 import sys
+
 from cards import *
-from cards import Card
 
 SCREEN_SIZE = (1410, 550)
 CENTER_POS = tuple(map(lambda a: a / 2, SCREEN_SIZE))
@@ -23,13 +23,13 @@ def game_shutdown():
 
 def main():
     pg.init()
-    card_lists: list[list[Card]] = init_cards()
+    card_lists = init_cards()
     card_len = sum(len(i) for i in card_lists)
     screen = pg.display.set_mode(size=SCREEN_SIZE)
     pg.display.set_caption(title=WINDOW_TITLE)
     card_back_surface = pg.image.load(CARD_BACK_PATH)
     pg.display.set_icon(card_back_surface)
-    opened_cards: list[Card] = []
+    opened_cards = []
     font = pg.font.Font(None, 130)
     clear_text_surface = font.render("Cleared!", True, pg.Color("RED"))
     clear_text_rect = clear_text_surface.get_rect(center=CENTER_POS)
